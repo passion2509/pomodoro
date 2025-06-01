@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for Pomodoro UI */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Points badge */
+.rounded-br-xl {
+  border-bottom-right-radius: 0.75rem;
+}
+.rounded-tl-xl {
+  border-top-left-radius: 0.75rem;
+}
+
+/* Hide outline on buttons for a cleaner look */
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Responsive for mobile */
+@media (max-width: 400px) {
+  .w-\[350px\] {
+    width: 100vw !important;
+    min-width: 0 !important;
+    border-radius: 0 !important;
+    border-width: 0 !important;
+  }
+}
+
+/* Animation for timer */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-pulse {
+    animation: pulse 1s infinite;
+} 
