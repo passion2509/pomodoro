@@ -3,19 +3,14 @@
 let timerInterval;
 let isRunning = false;
 let isWorkTime = true;
-let workDuration = 25 * 60; // seconds
-let breakDuration = 5 * 60; // seconds
+let workDuration = 25 * 60; // 25 minutes in seconds
+let breakDuration = 5 * 60; // 5 minutes in seconds
 let timeLeft = workDuration;
 
 // DOM Elements
 const timerDisplay = document.getElementById('timer');
-const statusDisplay = document.getElementById('status');
 const startBtn = document.getElementById('startBtn');
 const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
-const workInput = document.getElementById('workDuration');
-const breakInput = document.getElementById('breakDuration');
-const themeToggle = document.getElementById('themeToggle');
 const progressCircle = document.getElementById('progressCircle');
 const progressKnob = document.getElementById('progressKnob');
 
@@ -25,7 +20,6 @@ function updateDisplay() {
   const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
   const seconds = (timeLeft % 60).toString().padStart(2, '0');
   timerDisplay.textContent = `${minutes}:${seconds}`;
-  statusDisplay.textContent = isWorkTime ? 'Work Time' : 'Break Time';
   updateProgressBar();
 }
 
@@ -91,22 +85,9 @@ function switchMode() {
 // Event Listeners
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
-resetBtn.addEventListener('click', resetTimer);
 
-workInput.addEventListener('change', (e) => {
-  workDuration = parseInt(e.target.value, 10) * 60;
-  if (isWorkTime) {
-    timeLeft = workDuration;
-    updateDisplay();
-  }
-});
-breakInput.addEventListener('change', (e) => {
-  breakDuration = parseInt(e.target.value, 10) * 60;
-  if (!isWorkTime) {
-    timeLeft = breakDuration;
-    updateDisplay();
-  }
-});
+// Add double-click to reset (since we don't have a reset button in the UI)
+timerDisplay.addEventListener('dblclick', resetTimer);
 
-// Initial display
+// Initialize display
 updateDisplay(); 
