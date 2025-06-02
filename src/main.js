@@ -17,6 +17,7 @@ const workInput = document.getElementById('workDuration');
 const breakInput = document.getElementById('breakDuration');
 const themeToggle = document.getElementById('themeToggle');
 const progressCircle = document.getElementById('progressCircle');
+const progressKnob = document.getElementById('progressKnob');
 
 const CIRCLE_LENGTH = 2 * Math.PI * 90; // 2πr, r=90
 
@@ -31,7 +32,18 @@ function updateDisplay() {
 function updateProgressBar() {
   const total = isWorkTime ? workDuration : breakDuration;
   const progress = 1 - timeLeft / total;
-  progressCircle.style.strokeDashoffset = (CIRCLE_LENGTH * progress).toString();
+  
+  // Update progress circle
+  const offset = CIRCLE_LENGTH * (1 - progress);
+  progressCircle.style.strokeDashoffset = offset.toString();
+
+  // Move the knob along the circle
+  const angle = 2 * Math.PI * progress - Math.PI / 2; // Start from top
+  const r = 90;
+  const cx = 100 + r * Math.cos(angle);
+  const cy = 100 + r * Math.sin(angle);
+  progressKnob.setAttribute('cx', cx);
+  progressKnob.setAttribute('cy', cy);
 }
 
 function startTimer() {
@@ -39,6 +51,7 @@ function startTimer() {
   isRunning = true;
   startBtn.classList.add('hidden');
   pauseBtn.classList.remove('hidden');
+  
   timerInterval = setInterval(() => {
     if (timeLeft > 0) {
       timeLeft--;
@@ -66,7 +79,13 @@ function switchMode() {
   isWorkTime = !isWorkTime;
   timeLeft = isWorkTime ? workDuration : breakDuration;
   updateDisplay();
-  // Optionally play a sound here
+  
+  // Optional: Play notification sound or show alert
+  if (isWorkTime) {
+    console.log('Break time over! Time to work!');
+  } else {
+    console.log('Work session complete! Time for a break!');
+  }
 }
 
 // Event Listeners

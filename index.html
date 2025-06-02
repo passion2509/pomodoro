@@ -5,41 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="./src/style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background: #f0f0f0; 
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-white min-h-screen flex items-center justify-center">
-    <div class="w-[350px] rounded-3xl shadow-2xl border-8 border-[#232942] bg-white relative overflow-hidden">
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="w-[350px] h-[600px] rounded-3xl shadow-2xl border-[10px] border-[#232942] bg-white relative overflow-hidden">
         <!-- Points Badge -->
-        <div class="absolute top-0 right-0 m-4">
-            <div class="bg-primary text-white rounded-br-xl rounded-tl-xl px-4 py-2 text-sm font-semibold shadow">Points<br><span class="text-lg font-bold">120</span></div>
+        <div class="absolute top-0 right-0 m-4 z-10">
+            <div class="bg-[#FF6347] text-white rounded-br-xl rounded-tl-xl px-4 py-2 text-sm font-semibold shadow">Points<br><span class="text-lg font-bold">120</span></div>
         </div>
         <!-- Main Content -->
-        <div class="flex flex-col items-center pt-10 pb-6 px-4">
+        <div class="flex flex-col items-center pt-16 pb-6 px-4">
             <!-- Circular Progress with Tomato -->
-            <div class="relative mb-6">
-                <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="90" stroke="#eee" stroke-width="12" fill="none" />
-                    <circle id="progressCircle" cx="100" cy="100" r="90" stroke="#FF6347" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="0" transform="rotate(-90 100 100)" />
+            <div class="relative w-[200px] h-[200px] mb-8 flex items-center justify-center">
+                <svg width="200" height="200" viewBox="0 0 200 200" class="block">
+                    <!-- Background circle -->
+                    <circle cx="100" cy="100" r="90" stroke="#eee" stroke-width="12" fill="none"/>
+                    <!-- Progress circle -->
+                    <circle id="progressCircle" cx="100" cy="100" r="90" stroke="#FF6347" stroke-width="12" fill="none"
+                        stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)"/>
+                    <!-- Progress Knob -->
+                    <circle id="progressKnob" r="8" fill="#FF6347" cx="100" cy="10" />
                 </svg>
-                <img src="https://img.icons8.com/emoji/96/000000/tomato-emoji.png" alt="Tomato" class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none" draggable="false" />
+                <!-- Tomato centered inside circle -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <img src="https://img.icons8.com/emoji/96/000000/tomato-emoji.png"
+                        alt="Tomato"
+                        class="w-20 h-20 select-none pointer-events-none"
+                        draggable="false" />
+                </div>
             </div>
             <!-- Timer Display -->
-            <div class="text-center mb-4">
-                <h1 class="text-5xl font-bold text-gray-800 mb-2" id="timer">25:00</h1>
+            <div class="text-center mb-6">
+                <h1 class="text-5xl font-bold text-gray-800" id="timer">25:00</h1>
             </div>
-            <!-- Start Button -->
-            <button id="startBtn" class="bg-primary hover:bg-primary/90 text-white px-10 py-2 rounded-full text-lg font-semibold mb-2 transition-colors">Start</button>
-            <button id="pauseBtn" class="bg-secondary hover:bg-secondary/90 text-white px-10 py-2 rounded-full text-lg font-semibold mb-2 transition-colors hidden">Pause</button>
+            <!-- Start/Pause Buttons -->
+            <button id="startBtn" class="bg-[#FF6347] hover:bg-[#e5533d] text-white px-12 py-3 rounded-full text-lg font-semibold mb-4 transition-colors shadow-lg">Start</button>
+            <button id="pauseBtn" class="bg-[#4B5563] hover:bg-[#232942] text-white px-12 py-3 rounded-full text-lg font-semibold mb-4 transition-colors shadow-lg hidden">Pause</button>
             <!-- Settings Link -->
-            <a href="#" class="text-blue-500 flex items-center justify-center gap-1 text-sm mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Settings</a>
+            <a href="#" class="text-blue-500 flex items-center justify-center gap-2 text-sm mb-6 hover:text-blue-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Settings
+            </a>
         </div>
         <!-- Bottom Navigation -->
-        <div class="w-full bg-primary flex justify-between items-center px-4 py-2 rounded-b-2xl">
-            <div class="flex flex-col items-center text-white text-xs"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18" /></svg>timeline</div>
-            <div class="flex flex-col items-center text-white text-xs"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" /></svg>timer</div>
-            <div class="flex flex-col items-center text-white text-xs"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>garden</div>
-            <div class="flex flex-col items-center text-white text-xs"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>blacklist</div>
-            <div class="flex flex-col items-center text-white text-xs"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4a4 4 0 100-8 4 4 0 000 8z" /></svg>usage</div>
+        <div class="absolute bottom-0 left-0 right-0 bg-[#FF6347] flex justify-between items-center px-6 py-3 rounded-b-2xl">
+            <div class="flex flex-col items-center text-white text-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 5v4" />
+                </svg>
+                timeline
+            </div>
+            <div class="flex flex-col items-center text-white text-xs font-bold cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="underline">timer</span>
+            </div>
+            <div class="flex flex-col items-center text-white text-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                garden
+            </div>
+            <div class="flex flex-col items-center text-white text-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+                </svg>
+                blacklist
+            </div>
+            <div class="flex flex-col items-center text-white text-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                usage
+            </div>
         </div>
     </div>
     <script type="module" src="./src/main.js"></script>
