@@ -51,4 +51,171 @@ button:focus {
 
 .timer-pulse {
     animation: pulse 1s infinite;
+}
+
+/* Fallback styles for GitHub Pages */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 350px;
+  height: 600px;
+  border-radius: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 10px solid #232942;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.points-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  z-index: 10;
+  background: #FF6347;
+  color: white;
+  border-radius: 0.75rem 0 0.75rem 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem 1.5rem;
+}
+
+.progress-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tomato-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tomato-img {
+  width: 5rem;
+  height: 5rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.timer-display {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.start-btn, .pause-btn {
+  background: #FF6347;
+  color: white;
+  padding: 0.75rem 3rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s;
+}
+
+.start-btn:hover, .pause-btn:hover {
+  background: #e5533d;
+}
+
+.pause-btn {
+  background: #4B5563;
+}
+
+.pause-btn:hover {
+  background: #232942;
+}
+
+.hidden {
+  display: none;
+}
+
+.settings-link {
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.settings-link:hover {
+  color: #2563eb;
+}
+
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FF6347;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.nav-item:hover {
+  opacity: 1;
+}
+
+.nav-item.active {
+  font-weight: bold;
+  opacity: 1;
+}
+
+.nav-item svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.underline {
+  text-decoration: underline;
 } 

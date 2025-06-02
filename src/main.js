@@ -31,9 +31,9 @@ function updateDisplay() {
 
 function updateProgressBar() {
   const total = isWorkTime ? workDuration : breakDuration;
-  const progress = 1 - timeLeft / total;
+  const progress = (total - timeLeft) / total; // Progress from 0 to 1
   
-  // Update progress circle
+  // Update progress circle - fill up as time progresses
   const offset = CIRCLE_LENGTH * (1 - progress);
   progressCircle.style.strokeDashoffset = offset.toString();
 
