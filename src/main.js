@@ -3,8 +3,8 @@
 let timerInterval;
 let isRunning = false;
 let isWorkTime = true;
-let workDuration = 25 * 60; // 25 minutes in seconds
-let breakDuration = 5 * 60; // 5 minutes in seconds
+let workDuration = 10; // 10 seconds for debugging
+let breakDuration = 5; // 5 seconds for debugging
 let timeLeft = workDuration;
 
 // DOM Elements
@@ -15,6 +15,15 @@ const progressCircle = document.getElementById('progressCircle');
 const progressKnob = document.getElementById('progressKnob');
 
 const CIRCLE_LENGTH = 2 * Math.PI * 90; // 2πr, r=90
+
+// Debug: Check if elements exist
+console.log('DOM Elements found:', {
+  timerDisplay: !!timerDisplay,
+  startBtn: !!startBtn,
+  pauseBtn: !!pauseBtn,
+  progressCircle: !!progressCircle,
+  progressKnob: !!progressKnob
+});
 
 function updateDisplay() {
   const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
@@ -27,17 +36,32 @@ function updateProgressBar() {
   const total = isWorkTime ? workDuration : breakDuration;
   const progress = (total - timeLeft) / total; // Progress from 0 to 1
   
+  console.log(`Progress Update: ${progress.toFixed(3)}, TimeLeft: ${timeLeft}, Total: ${total}`);
+  
   // Update progress circle - fill up as time progresses
   const offset = CIRCLE_LENGTH * (1 - progress);
-  progressCircle.style.strokeDashoffset = offset.toString();
+  console.log(`Setting stroke-dashoffset to: ${offset.toFixed(2)}`);
+  
+  if (progressCircle) {
+    progressCircle.style.strokeDashoffset = offset.toString();
+    // Also try setting the attribute directly
+    progressCircle.setAttribute('stroke-dashoffset', offset.toString());
+  } else {
+    console.error('progressCircle element not found!');
+  }
 
   // Move the knob along the circle
-  const angle = 2 * Math.PI * progress - Math.PI / 2; // Start from top
-  const r = 90;
-  const cx = 100 + r * Math.cos(angle);
-  const cy = 100 + r * Math.sin(angle);
-  progressKnob.setAttribute('cx', cx);
-  progressKnob.setAttribute('cy', cy);
+  if (progressKnob) {
+    const angle = 2 * Math.PI * progress - Math.PI / 2; // Start from top
+    const r = 90;
+    const cx = 100 + r * Math.cos(angle);
+    const cy = 100 + r * Math.sin(angle);
+    progressKnob.setAttribute('cx', cx);
+    progressKnob.setAttribute('cy', cy);
+    console.log(`Knob position: cx=${cx.toFixed(1)}, cy=${cy.toFixed(1)}`);
+  } else {
+    console.error('progressKnob element not found!');
+  }
 }
 
 function startTimer() {
